@@ -39,7 +39,7 @@ export const resetPointByRound = async (
 
     const nextReset = dayjs()
       .add(1, "day")
-      .set("hour", 0)
+      .set("hour", 17)
       .set("minute", 0)
       .toISOString();
 
