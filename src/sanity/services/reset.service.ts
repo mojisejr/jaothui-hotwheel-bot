@@ -1,5 +1,6 @@
 import { client } from "..";
 import dayjs from "dayjs";
+import { notify } from "../../notify/line";
 
 export const resetPointByRound = async (
   gameId: string,
@@ -36,16 +37,25 @@ export const resetPointByRound = async (
       // .then((result) => console.log("Done"));
     }
 
+    const nextReset = dayjs()
+      .add(1, "day")
+      .set("hour", 0)
+      .set("minute", 0)
+      .toISOString();
+
     await client
       .patch(gameId)
       .set({
-        end: dayjs()
-          .add(1, "day")
-          .set("hour", 0)
-          .set("minute", 0)
-          .toISOString(),
+        end: nextReset,
       })
       .commit();
+
+    await notify(`hotwheel: 
+      - reset 
+      @${dayjs().format()} server time
+      @${dayjs().tz("Asia/Bangkok").format()} local time
+      - next 
+      @${nextReset}`);
 
     console.log("@status: reset complete!");
   }

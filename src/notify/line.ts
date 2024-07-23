@@ -3,19 +3,7 @@
 import axios from "axios";
 import qs from "qs";
 
-export async function itemRedeemNotify({
-  _id,
-  item,
-  name,
-  address,
-  tel,
-}: {
-  _id: string;
-  item: string;
-  name: string;
-  address: string;
-  tel: string;
-}) {
+export async function notify(message: string) {
   try {
     const token = process.env.line as string;
     const response = await axios.post(
@@ -29,17 +17,7 @@ export async function itemRedeemNotify({
 
   กรุณาตรวจสอบการโอนเงิน📍*/
       qs.stringify({
-        message: `แจ้งเตือน Redeem Item
-        _id: ${_id}
-
-        Item: ${item}
-        
-        ชื่อ:  ${name}
-        
-        ที่อยู่: ${address} 
-
-        เบอร์โทร: ${tel} 
-        `,
+        message,
       }),
       {
         headers: {
@@ -48,7 +26,6 @@ export async function itemRedeemNotify({
         },
       }
     );
-    // console.log("notification response", response);
     return true;
   } catch (error) {
     console.log("notification error: ", error);
