@@ -23,10 +23,7 @@ export const resetPointByRound = async (
     .tz("Asia/Bangkok")
     .isAfter(dayjs(game.end).tz("Asia/Bangkok"));
 
-  console.log(
-    "@reset time ",
-    dayjs().add(1, "day").set("hour", 0).set("minute", 0).format()
-  );
+  console.log("@reset time ", dayjs(game.end).tz("Asia/Bangkok").format());
 
   if (canReset) {
     const query = `*[_type == "nftInGame" && contractAddress == "${contractAddress}"]`;
@@ -38,8 +35,9 @@ export const resetPointByRound = async (
     }
 
     const nextReset = dayjs()
+      .tz("Asia/Bangkok")
       .add(1, "day")
-      .set("hour", 17)
+      .set("hour", 0)
       .set("minute", 0)
       .toISOString();
 
